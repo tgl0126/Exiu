@@ -1,0 +1,30 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <!--标题栏title字体大小-->
+    <dimen name="toolbar_tv_size">24sp</dimen>
+    <!--文字大小-->
+    <dimen name="text_bigsize">18sp</dimen>
+    <dimen name="text_normalsize">14sp</dimen>
+    <dimen name="text_smallsize">12sp</dimen>
+    <!-- 一般组件间左右上下间距 -->
+    <dimen name="margin">5dp</dimen>
+    <dimen name="margin_left">5dp</dimen>
+    <dimen name="margin_right">5dp</dimen>
+    <dimen name="margin_top">5dp</dimen>
+    <dimen name="margin_bottom">5dp</dimen>
+    <!--和标题栏的间距-->
+    <dimen name="margin_toolbar_top">50dp</dimen>
+    <!--在listView中一条list行的长和宽-->
+    <dimen name="itemlist_height">45dp</dimen>
+    <dimen name="itemlist_width">45dp</dimen>
+    <!--list列中img图标的大小-->
+    <dimen name="img_listitem_icon_width">25dp</dimen>
+    <dimen name="img_listitem_icon_height">25dp</dimen>
+    <!--img图标的大小-->
+    <dimen name="img_listicon_width">35dp</dimen>
+    <dimen name="img_listicon_height">35dp</dimen>
+
+</resources>

@@ -1,0 +1,19 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             >
+
+<include layout="@layout/layout_customtoolbar"/>
+    <ListView
+        android:id="@+id/listview_mesage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/blank"
+        android:dividerHeight="@dimen/text_margin"
+        android:layout_marginTop="@dimen/margin_toolbar_top"
+        >
+
+    </ListView>
+
+</FrameLayout>

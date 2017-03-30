@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.tgl.fragment.MainFragment">
+    <!-- 首页图片轮播-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/itemlist_height"
+            android:background="@drawable/test_hd"
+            />
+    <!-- 内容的主体部分，能够下拉刷新出发布的信息-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/main_swipe_refresh_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="145dp"
+            >
+            <ListView
+                android:id="@+id/main_listView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:dividerHeight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/main_im_log"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/log"
+
+            />
+        <TextView
+            android:id="@+id/main_tv_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/search_32x32"
+            android:layout_weight="1"
+            android:background="@drawable/textview_shape"
+            android:layout_marginRight="@dimen/margin_right"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+
+            />
+        <ImageView
+            android:id="@+id/main_img_menu"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/my"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            />
+    </LinearLayout>
+
+</FrameLayout>

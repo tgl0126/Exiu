@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Exiu</string>
+    <string name="tx_log_login">欢迎登录</string>
+    <string name="tx_login_username">账号</string>
+    <string name="username">请输入账号</string>
+    <string name="tx_login_password">密码</string>
+    <string name="password">请输入密码</string>
+    <string name="btn_login">登录</string>
+    <string name="tx_register">注册</string>
+    <string name="img_login_dsc">登录界面图片</string>
+    <!--导航栏-->
+    <string name="item_home">首页</string>
+    <string name="item_search">搜索</string>
+    <string name="item_publish">发布</string>
+    <string name="item_mesage">消息</string>
+    <string name="item_user">我的</string>
+    <string name="exit">退出登陆</string>
+    <!--publish-->
+    <string name="publish_title">标题:</string>
+    <string name="publish_content">内容描述:</string>
+    <string name="publish_addimg">添加照片:</string>
+    <string name="publish_content_hint">问题详情描述</string>
+    <string name="publish_fenlei">问题分类：</string>
+
+    <string name="test_text">测试文本测试文本测试文本测试文本测试文本测试文本
+        测试文本测试文本测试文本测试文本测试文本测试文本
+        测试文本测试文本测试文本测试文本测试文本测试文本测试文本</string>
+</resources>

@@ -1,0 +1,49 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/light_gray2"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/search_32x32"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_left"
+            android:hint="@string/app_name"
+            android:maxLines="1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/edit_shape"
+            tools:ignore="RtlHardcoded"/>
+
+        <Button
+            android:id="@+id/btn_search_search"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/item_search"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:background="@drawable/button_select"
+            />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_toolbar_top"
+        android:divider="@color/blank"
+        android:dividerHeight="@dimen/text_margin"
+        >
+
+    </ListView>
+
+</FrameLayout>
