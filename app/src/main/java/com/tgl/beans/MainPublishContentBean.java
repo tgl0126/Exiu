@@ -9,7 +9,7 @@ import cn.bmob.v3.BmobObject;
  */
 
 public class MainPublishContentBean extends BmobObject{
-    private Integer UserID;//用户ID
+    private Integer UserID;//用户ID    、、删除
     private Integer ID;//发布内容的ID
     private String Title;//内容标题
     private String Content;//发布内容文本,即问题描述
@@ -19,6 +19,7 @@ public class MainPublishContentBean extends BmobObject{
     private String ProblemType;//问题分类
     private boolean IsSoluting;//是否正在修
     private boolean IsSoluted;//是否已修
+    private UserBean userBean;//一对多关系
 
     public MainPublishContentBean() {
     }

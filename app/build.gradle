@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.0"
+        buildToolsVersion "24.0.0"
     //使用bmob
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.tgl.exiu"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -26,22 +26,29 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+//    compile 'com.android.support:appcompat-v7:23.1.1'
+//    compile 'com.android.support:recyclerview-v7:23.1.0'
+
+
     //底部导航框架
-    compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.0'
+    compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.0'
     //网络框架OKHttp
 //    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 //    compile 'com.android.support:support-v4:23.4.0'
 //    compile 'com.android.support:recyclerview-v7:23.4.0'
-//    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
     //butterknife框架
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     //引入第三方图像变换库
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    //compile 'jp.wasabeef:glide-transformations:2.0.1'
 
     //bmob包
-    compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
+    compile 'cn.bmob.android:bmob-sdk:3.5.0'
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
+    compile 'com.android.support:support-v4:23.2.1'
     compile 'cn.bmob.android:http-legacy:1.0'
+    //短信
+    compile 'cn.bmob.android:bmob-sms:1.0.1'
 }

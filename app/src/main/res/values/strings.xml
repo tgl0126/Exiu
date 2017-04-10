@@ -8,6 +8,11 @@
     <string name="btn_login">登录</string>
     <string name="tx_register">注册</string>
     <string name="img_login_dsc">登录界面图片</string>
+    <string name="tx_tel">手机号</string>
+    <string name="tel">请输入手机号</string>
+    <string name="btn_hqyzm">获取验证码</string>
+    <string name="tx_yzm">验证码</string>
+    <string name="hint_yzm">请输入验证码</string>
     <!--导航栏-->
     <string name="item_home">首页</string>
     <string name="item_search">搜索</string>

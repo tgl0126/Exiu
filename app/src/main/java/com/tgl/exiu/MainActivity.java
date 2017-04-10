@@ -2,6 +2,7 @@ package com.tgl.exiu;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,51 +19,52 @@ import com.tgl.fragment.MesageFragment;
 import com.tgl.fragment.MyInfoFragment;
 import com.tgl.fragment.PublishFragment;
 import com.tgl.fragment.SearchFragment;
+import com.tgl.utils.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
+
+import static com.tgl.exiu.R.id.mMainFrame;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
-    private BottomNavigationBar mBottomNavigationBar;
+    //    private BottomNavigationBar mBottomNavigationBar;
     private MainFragment mMainFragment;
     private MesageFragment mMesageFragment;
     private PublishFragment mPublishFragment;
     private SearchFragment mSearchFragment;
     private MyInfoFragment mMyInfoFragment;
     private ArrayList<Fragment> fragments;
+    private Fragment fragment;//定义一个Fragment，来做为转换的
+    @BindView(R.id.bottom_navigation_bar)//底部导航栏
+            BottomNavigationBar mBottomNavigationBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-/**
- * Create by 山花烂漫
- * on 2017/3/22
- * at 11:26
- *  初始化bmob
-*/
-//        BmobConfig config =new BmobConfig.Builder(this)
-//        //设置appkey
-//        .setApplicationId("Your Application ID")
-//        //请求超时时间（单位为秒）：默认15s
-//        .setConnectTimeout(30)
-//        //文件分片上传时每片的大小（单位字节），默认512*1024
-//        .setUploadBlockSize(1024*1024)
-//        //文件的过期时间(单位为秒)：默认1800s
-//        .setFileExpiration(2500)
-//        .build();
-//        Bmob.initialize(config);
-
+        //初始化Bmob
+        BmobConfig config = new BmobConfig.Builder(this)
+                .setApplicationId("92d9331fd3649f34dff051bb70b4ae68")
+                .setConnectTimeout(30)
+                .setUploadBlockSize(1024 * 1024)
+                //文件的过期时间(单位为秒)：默认1800s
+                .setFileExpiration(2500)
+                .build();
+        Bmob.initialize(config);
         ButterKnife.bind(this);
         BadgeItem badgeItem = new BadgeItem();
         badgeItem.setHideOnSelect(false)
                 .setText("10")
                 .setBackgroundColorResource(R.color.orange)
                 .setBorderWidth(0);
-        mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        mBottomNavigationBar.setTabSelectedListener(this);
+        // mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .addItem(new BottomNavigationItem(R.drawable.home_fill, getString(R.string.item_home)).setInactiveIconResource(R.drawable.home).setActiveColorResource(R.color.colorPrimary).setInActiveColorResource(R.color.blue))
@@ -72,19 +74,106 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .addItem(new BottomNavigationItem(R.drawable.user_fill, getString(R.string.item_user)).setInactiveIconResource(R.drawable.user).setActiveColorResource(R.color.colorPrimary).setInActiveColorResource(R.color.blue))
                 .setFirstSelectedPosition(0)
                 .initialise();
-        mBottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
-
     }
 
+    //初始化页面
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-        mMainFragment=mMainFragment.newInstance("1","1");
-        transaction.replace(R.id.mMainFrame, mMainFragment);
+        FragmentTransaction transaction = fm.beginTransaction();
+        mMainFragment = mMainFragment.newInstance("1", "1");
+        transaction.add(R.id.mMainFrame, mMainFragment);//初始化页面
         transaction.commit();
+        fragment = mMainFragment;
     }
 
+
+    //切换Fragment页面方法
+    public void switchContent(Fragment to) {
+        if (fragment != to) {
+            FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction();
+            if (!to.isAdded()) { // 先判断是否被add过
+                transaction.hide(fragment).add(mMainFrame, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.hide(fragment).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            }
+            fragment = to;
+        }
+    }
+
+    @Override
+    public void onTabSelected(int position) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction beginTransaction = fm.beginTransaction();
+        switch (position) {
+            case 0:
+                if (mMainFragment == null) {
+                    mMainFragment = MainFragment.newInstance("mnt", "match_parent");
+                }
+                switchContent(mMainFragment);
+                break;
+            case 1:
+                if (mSearchFragment == null) {
+                    mSearchFragment = SearchFragment.newInstance("SearchFragment", "SearchFragment");
+                }
+                switchContent(mSearchFragment);
+                break;
+            case 2:
+                if (mPublishFragment == null) {
+                    mPublishFragment = PublishFragment.newInstance("publish", "publish");
+                }
+                switchContent(mPublishFragment);
+                break;
+            case 3:
+                if (mMesageFragment == null) {
+                    mMesageFragment = MesageFragment.newInstance("match_parent", "match_parent");
+                }
+                switchContent(mMesageFragment);
+                break;
+            case 4:
+                if (mMyInfoFragment == null) {
+                    mMyInfoFragment = MyInfoFragment.newInstance("1", "1");
+                }
+                if (SharedPreferenceUtil.getBooleanInfo(MainActivity.this, "isLogin")) {
+//                    Toast.makeText(this, "kaishi zhuanhuan ", Toast.LENGTH_SHORT).show();
+                    switchContent(mMyInfoFragment);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("登录后可以解锁更多姿势哟~");
+                    builder.setTitle("是否登录?");
+
+                    builder.setNegativeButton("暂不登陆", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switchContent(mMyInfoFragment);
+                        }
+                    });
+                    builder.setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    builder.create();
+                    builder.show();
+                }
+                break;
+        }
+        beginTransaction.commit();
+    }
+
+    @Override
+    public void onTabUnselected(int position) {
+    }
+
+    @Override
+    public void onTabReselected(int position) {
+
+    }
+
+    //退出事件
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -105,52 +194,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         }
         builder.show();
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onTabSelected(int position) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction beginTransaction = fm.beginTransaction();
-        switch (position) {
-            case 0:
-                if (mMainFragment == null) {
-                    mMainFragment = MainFragment.newInstance("mnt", "match_parent");
-                }
-                beginTransaction.replace(R.id.mMainFrame, mMainFragment);
-                break;
-            case 1:
-                if (mSearchFragment == null) {
-                    mSearchFragment = SearchFragment.newInstance("SearchFragment", "SearchFragment");
-                }
-                beginTransaction.replace(R.id.mMainFrame, mSearchFragment);
-                break;
-            case 2:
-                if (mPublishFragment == null) {
-                    mPublishFragment = PublishFragment.newInstance("publish", "publish");
-                }
-                beginTransaction.replace(R.id.mMainFrame, mPublishFragment);
-                break;
-            case 3:
-                if (mMesageFragment == null) {
-                    mMesageFragment = MesageFragment.newInstance("match_parent", "match_parent");
-                }
-                beginTransaction.replace(R.id.mMainFrame, mMesageFragment);
-                break;
-            case 4:
-                if (mMyInfoFragment == null) {
-                    mMyInfoFragment = MyInfoFragment.newInstance("match_parent", "match_parent");
-                }
-                beginTransaction.replace(R.id.mMainFrame, mMyInfoFragment);
-        }
-        beginTransaction.commit();
-    }
-
-    @Override
-    public void onTabUnselected(int position) {
-    }
-
-    @Override
-    public void onTabReselected(int position) {
-
     }
 }

@@ -6,33 +6,30 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.tgl.exiu.R;
 
 public class PublishFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private Spinner spinner_main;
     private Spinner spinner_child;
     private View view;
     private OnFragmentInteractionListener mListener;
-    private ArrayAdapter<String> adpter_spinner_main;
-    private ArrayAdapter<String> adpter_spinner_child;
-private String []main=new String[]{"软件","硬件"};
-    private String [][]child=new String[][]{
-            //软件
-            {"系统重装","系统还原","总是蓝屏","异常错误","其它"},
-            //硬件
-            {"硬盘损坏","风扇噪音大","光驱无法使用"}
-    };
+//    private ArrayAdapter<String> adpter_spinner_main;
+//    private ArrayAdapter<String> adpter_spinner_child;
+//    private String[] main = new String[]{"软件", "硬件"};
+//    private String[][] child = new String[][]{
+//            //软件
+//            {"系统重装", "系统还原", "总是蓝屏", "异常错误", "其它"},
+//            //硬件
+//            {"硬盘损坏", "风扇噪音大", "光驱无法使用"}
+//    };
+
     public PublishFragment() {
         // Required empty public constructor
     }
@@ -67,12 +64,12 @@ private String []main=new String[]{"软件","硬件"};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_publish, container, false);
-        setSpinner();
+        view = inflater.inflate(R.layout.fragment_publish, container, false);
+        //   setSpinner();
         return view;
     }
 
-    private void setSpinner() {
+  /*  private void setSpinner() {
         spinner_main=(Spinner) view.findViewById(R.id.spinner_main);
         spinner_child=(Spinner) view.findViewById(R.id.spinner_child);
         //绑定适配器和值
@@ -85,7 +82,7 @@ private String []main=new String[]{"软件","硬件"};
                 android.R.layout.select_dialog_item,child[0]);
         spinner_child.setAdapter(adpter_spinner_child);
         spinner_child.setSelection(1,true);
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
   /*  public void onButtonPressed(Uri uri) {
@@ -111,7 +108,9 @@ private String []main=new String[]{"软件","硬件"};
         mListener = null;
     }
 
-    *//**
+    */
+
+    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
