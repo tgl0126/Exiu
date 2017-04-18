@@ -145,12 +145,11 @@ public class MainFragment extends Fragment {
             }
         });
         //设置更新时的颜色，目前感觉没有用处，未显示出来
-        mSwipeLayout.setColorSchemeColors(R.color.blue,
-                R.color.red,
-                R.color.blue,
-                R.color.red);
+//        mSwipeLayout.setColorSchemeColors(R.color.blue,
+//                R.color.red,
+//                R.color.blue,
+//                R.color.red);
         //设置适配器
-
         contentAdapter = new SimpleAdapter(getActivity(), getDada(), R.layout.main_listview_content, new String[]{"head", "userName", "date", "text_content", "whereFrom"},
                 new int[]{R.id.main_img_userHead, R.id.main_tv_userName, R.id.main_tv_publishDate, R.id.main_tv_content, R.id.main_tv_publishcontent_wherefrom});
         mListView.setAdapter(contentAdapter);
@@ -169,6 +168,7 @@ public class MainFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 } else {
+                    Toast.makeText(getActivity(), "您已经登录了", Toast.LENGTH_SHORT).show();
                /*     fm = getActivity().getSupportFragmentManager();
                      beginTransaction = fm.beginTransaction();
                     if (mMyInfoFragment == null) {

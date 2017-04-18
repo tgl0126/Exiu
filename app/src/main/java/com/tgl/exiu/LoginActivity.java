@@ -4,6 +4,7 @@ package com.tgl.exiu;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ public class LoginActivity extends Activity {
     TextView clickToRegister;
     private int request_code = 0;
     private UserBean user;
+    private Handler mHandler;
 //    private SharedPreferenceUtil sp_userinfo;
 //    UserBean user = new UserBean();
 
@@ -68,44 +70,33 @@ public class LoginActivity extends Activity {
                 } else if ("".equals(ex_login_PWD.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "未输入密码！", Toast.LENGTH_SHORT).show();
                 } else {
-                    user = new UserBean();
                     //登录操作
-                    BmobUser.loginByAccount(ex_login_UserName.getText().toString(),
-                            ex_login_PWD.getText().toString(),
-                            new LogInListener<UserBean>() {
-                                @Override
-                                public void done(UserBean userBean, BmobException e) {
-                                    if (userBean != null) {
-                                        Toast.makeText(LoginActivity.this, "登录成功!", Toast.LENGTH_SHORT).show();
-                                        //跳转到主页面
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                        //保存登录状态
-                                        SharedPreferenceUtil.setUserInfo(LoginActivity.this,"isLogin", true);
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "登录失败!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                  /*  BmobQuery<UserBean> query = new BmobQuery<UserBean>();
-                    query.addWhereEqualTo("Name", ex_login_UserName.getText().toString()).addWhereEqualTo("PWD", ex_login_PWD.getText().toString());
-                    query.count(UserBean.class, new CountListener() {
+                    mHandler=new Handler();
+                    mHandler.post(new Runnable() {
                         @Override
-                        public void done(Integer integer, BmobException e) {
-                            if (integer > 0) {
-                *//*    Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this, RegisterActivity.class);
-                    startActivity(intent);*//*
-
-//                    sp_userinfo= SharedPreferenceUtil.getUserInfo();
-//                    sp_userinfo.setContext(LoginActivity.this);
-//                    sp_userinfo.setUserInfo("IsLogin",true);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "帐号或密码错误！", Toast.LENGTH_SHORT).show();
-                            }
+                        public void run() {
+                            user = new UserBean();
+                            BmobUser.loginByAccount(ex_login_UserName.getText().toString(),
+                                    ex_login_PWD.getText().toString(),
+                                    new LogInListener<UserBean>() {
+                                        @Override
+                                        public void done(UserBean userBean, BmobException e) {
+                                            if (userBean != null) {
+                                                Toast.makeText(LoginActivity.this, "登录成功!", Toast.LENGTH_SHORT).show();
+                                                //跳转到主页面
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                                //保存登录状态
+                                                SharedPreferenceUtil.setUserInfo(LoginActivity.this,"isLogin", true);
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "登录失败!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         }
-                    });*/
+                    });
+
                 }
             }
         });

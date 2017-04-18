@@ -51,4 +51,8 @@ dependencies {
     compile 'cn.bmob.android:http-legacy:1.0'
     //短信
     compile 'cn.bmob.android:bmob-sms:1.0.1'
+
+    //圆形头像
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+
 }

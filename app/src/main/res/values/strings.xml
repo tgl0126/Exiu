@@ -30,4 +30,13 @@
     <string name="test_text">测试文本测试文本测试文本测试文本测试文本测试文本
         测试文本测试文本测试文本测试文本测试文本测试文本
         测试文本测试文本测试文本测试文本测试文本测试文本测试文本</string>
+    //个人详细信息页面
+    <string name="head">头像:</string>
+    <string name="userName">用户名:</string>
+    <string name="passWord">密 码:</string>
+    <string name="qianming">个性签名:</string>
+    <string name="address">地址:</string>
+    <string name="sex">性别:</string>
+    <string name="stars">星级:</string>
+    <string name="save">保存</string>
 </resources>

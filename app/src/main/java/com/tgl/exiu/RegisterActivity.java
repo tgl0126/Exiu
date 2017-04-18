@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tgl.beans.UserBean;
-import com.tgl.utils.SharedPreferenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +22,7 @@ import cn.bmob.v3.listener.SaveListener;
 public class RegisterActivity extends Activity {
     private UserBean user;//用户对象
     private final int RESULT_CODE = 0;
-    private SharedPreferenceUtil sharedPreference;
+    private Handler mHandler;
     @BindView(R.id.et_UserName)//帐号
             EditText et_UserName;
     @BindView(R.id.et_password)//密码
@@ -47,10 +47,10 @@ public class RegisterActivity extends Activity {
     private boolean isSendedCode = false;//判断是否已经发送过短信,发送了就不在发送短信了.
 
     private void init() {
-        btn_register.setEnabled(true);//暂时取消获得验证码这个效果,便于测试,测试完后删除
+//        btn_register.setEnabled(true);//暂时取消获得验证码这个效果,便于测试,测试完后删除此代码
         user = new UserBean();
         //给Button设置点击时间,触发倒计时
-        final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
+        final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(30000, 1000);
         //获取验证码按钮
         btn_hqyzm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,38 +94,8 @@ public class RegisterActivity extends Activity {
                 user.setStars(0);//设置星级
                 user.setSex(true);//设置性别,男为true,女为false
                 user.setPersonalSign("为何人总是在失去的时候才懂得珍惜!");
-                //验证验证码是否正确,正确进入页面
-               /* user.signOrLoginByMobilePhone(et_tel.getText().toString(), et_yzm.getText().toString(), new LogInListener<UserBean>() {
-
-                    @Override
-                    public void done(UserBean user, BmobException e) {
-                        if(user!=null){
-                            Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(RegisterActivity.this, "对不起,注册失败了!"+e.getMessage()+e.getErrorCode(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-                user.signUp(new SaveListener<UserBean>() {
-                    @Override
-                    public void done(UserBean userBean, BmobException e) {
-                        if (null == e) {
-                            Intent intent = new Intent();
-                            intent.putExtra("userName", et_UserName.getText().toString());
-                            intent.putExtra("passWord", et_password.getText().toString());
-                            RegisterActivity.this.setResult(RESULT_CODE, intent);
-                            Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "对不起,注册失败了!"+e.getErrorCode()+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
                 //注册或登录
-             /*   user.signOrLogin(et_yzm.getText().toString(), new SaveListener<UserBean>() {
+                user.signOrLogin(et_yzm.getText().toString(), new SaveListener<UserBean>() {
                     @Override
                     public void done(UserBean userBean, BmobException e) {
                         if (null == e) {
@@ -139,7 +109,7 @@ public class RegisterActivity extends Activity {
                             Toast.makeText(RegisterActivity.this, "对不起,注册失败了!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });*/
+                });
             }
         });
     }

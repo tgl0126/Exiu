@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sexdata">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+    <string-array name="problem">
+        <item>-请选择-</item>
+        <item>硬件</item>
+        <item>软件</item>
+    </string-array>
+    <string-array name="problem_ruan">
+        <item>-请选择-</item>
+        <item>系统重装</item>
+        <item>系统还原</item>
+        <item>总是蓝屏</item>
+        <item>异常错误</item>
+        <item>其它</item>
+
+    </string-array>
+    <string-array name="problem_ying">
+        <item>-请选择-</item>
+        <item>硬盘损坏</item>
+        <item>风扇噪音大</item>
+        <item>光驱无法使用</item>
+
+    </string-array>
+</resources>

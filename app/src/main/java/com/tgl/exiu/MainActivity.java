@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             }
             fragment = to;
         }
+
     }
 
     @Override
@@ -112,12 +113,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     mMainFragment = MainFragment.newInstance("mnt", "match_parent");
                 }
                 switchContent(mMainFragment);
+
                 break;
             case 1:
                 if (mSearchFragment == null) {
                     mSearchFragment = SearchFragment.newInstance("SearchFragment", "SearchFragment");
                 }
                 switchContent(mSearchFragment);
+
                 break;
             case 2:
                 if (mPublishFragment == null) {
@@ -136,13 +139,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     mMyInfoFragment = MyInfoFragment.newInstance("1", "1");
                 }
                 if (SharedPreferenceUtil.getBooleanInfo(MainActivity.this, "isLogin")) {
-//                    Toast.makeText(this, "kaishi zhuanhuan ", Toast.LENGTH_SHORT).show();
                     switchContent(mMyInfoFragment);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("登录后可以解锁更多姿势哟~");
                     builder.setTitle("是否登录?");
-
                     builder.setNegativeButton("暂不登陆", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

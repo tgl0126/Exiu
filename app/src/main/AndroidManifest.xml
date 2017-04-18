@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.tgl.exiu">
-    <!--允许联网-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!--获取网络状态-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--获取WIFI状态-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!--获取SD卡写权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--唤醒CPU-->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <!--获取手机状态的权限-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-    <!-- android:theme="@android:style/Theme.NoTitleBar"-->
+    <!-- 允许联网 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 获取WIFI状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 获取SD卡写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 唤醒CPU -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- 获取手机状态的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- 照相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!-- android:theme="@android:style/Theme.NoTitleBar" -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.tgl.exiu.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
         <activity android:name=".RegisterActivity">
+        </activity>
+        <activity android:name=".UserInfoActivity">
+        </activity>
+        <activity android:name=".PublishDetailsActivity">
         </activity>
     </application>
 

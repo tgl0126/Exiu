@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="5dp"/>
-    <padding android:left="5dp"/>
-    <padding android:right="5dp"/>
-    <solid android:color="@color/medium_gray1"/>
-</shape>
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/edittext_normal" android:state_window_focused="false"/>
+    <item android:drawable="@drawable/edittext_focused" android:state_focused="true"/>
+</selector>
