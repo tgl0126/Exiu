@@ -3,6 +3,7 @@ package com.tgl.exiu;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -10,11 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,12 +30,18 @@ import android.widget.Toast;
 import com.tgl.beans.UserBean;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
@@ -42,11 +52,6 @@ public class UserInfoActivity extends AppCompatActivity {
     private static final String PHOTO_FILE_NAME = "head_photo.jpg";
     private File tempFile;
     private UserBean user;
-    //    private String[] arrSex = getResources().getStringArray(R.array.sexdata);
-    private String userName;
-    private String qianming;
-    private String address;
-    private boolean sex;
 
     @BindView(R.id.img_user_head)
     ImageView img_user_head;//头像
@@ -60,6 +65,7 @@ public class UserInfoActivity extends AppCompatActivity {
     Spinner spinner_sex;//性别
     @BindView(R.id.btn_save)
     Button btn_save;//保存
+    private String phtoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,56 +76,45 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void init() {
-
         //给页面赋值
         user = BmobUser.getCurrentUser(UserBean.class);
-//        BmobQuery bmobQuery = new BmobQuery();
-       /* bmobQuery.findObjects(new FindListener<UserBean>() {
-            @Override
-            public void done(List<UserBean> object, BmobException e) {
-                if(e==null){
-                    for (UserBean user : object) {
-                        BmobFile bmobfile = user.getHead();
-                        if(bmobfile!= null){
-                            //调用bmobfile.download方法
-                                bmobfile.download(new File(Environment.getExternalStorageState() +"img_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg"), new DownloadFileListener() {
-                                @Override
-                                public void done(String s, BmobException e) {
-                                    if (null==e){
-
-                                        img_user_head.setImageBitmap();
-                                    }
-                                    else {
-
-                                    }
-                                }
-
-                                @Override
-                                public void onProgress(Integer integer, long l) {
-
-                                }
-                            });
-                        }
-                    }
-                }else{
-                    Toast.makeText(UserInfoActivity.this, "头像获取失败!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-        userName = user.getUsername();
-        qianming = user.getPersonalSign();
-        address = user.getAddress();
-//        userHead=user.getHead();
-        sex = user.isSex();
+        String userName = user.getUsername();
+        String qianming = user.getPersonalSign();
+        String address = user.getAddress();
+        boolean sex = user.isSex();
+        if (sex){
+            //男,true
+            spinner_sex.setSelection(0);
+        }else {
+            //女,false
+            spinner_sex.setSelection(1);
+        }
         et_UserName.setText(userName);
         et_qianming.setText(qianming);
         et_address.setText(address);
+        //如果存在图片,则从本地取,不存在,则后台下载后取
+        phtoUrl=Environment.getExternalStorageDirectory()+"/"+user.getHead().getFilename();
+        File file=new File(phtoUrl);
+        if (file.exists()) {
+          Bitmap bitmap=getDiskBitmap(phtoUrl);
+            Drawable drawable = new BitmapDrawable(null, bitmap);
+            img_user_head.setImageDrawable(drawable);
+        }else{
+            BmobFile bmobFile=new BmobFile(user.getHead().getFilename(),user.getHead().getGroup(),user.getHead().getUrl());
+            downloadFile(bmobFile);
+        }
+
+
+
+//        img_user_head.
 
         //填充Spinner性别
-//        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrSex);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.sexdata,android.R.layout.simple_list_item_1);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //绑定 Adapter到控件
-//        spinner_sex .setAdapter(adapter);
+        spinner_sex.setAdapter(adapter);
+        //spinner选择事件
+
         //点击头像事件
         img_user_head.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,14 +122,30 @@ public class UserInfoActivity extends AppCompatActivity {
                 showPopuWindow();
             }
         });
-//上传更改用户头像    ,暂时未实现
+//上传更改用户信息,不包括头像
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 user.setUsername(et_UserName.getText().toString());
                 user.setPersonalSign(et_qianming.getText().toString());
                 user.setAddress(et_address.getText().toString());
-//                user.setSex(false);
+                spinner_sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String sex=(String)parent.getItemAtPosition(position);
+                        if(sex.equals("男")){
+                            user.setSex(true);
+                        }
+                        else {
+                            user.setSex(false);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
 //                更新信息
                 user.update(new UpdateListener() {
                     @Override
@@ -149,7 +160,52 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
     }
+    //
+    private void downloadFile(BmobFile file){
+        //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
+        final File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+        file.download(saveFile, new DownloadFileListener() {
+            @Override
+            public void onStart() {
+            }
 
+            @Override
+            public void done(String savePath,BmobException e) {
+                if(e==null){
+                    Toast.makeText(UserInfoActivity.this, "头像下载成功!", Toast.LENGTH_SHORT).show();
+                    Bitmap bitmap=BitmapFactory.decodeFile(saveFile.getPath());
+                    Drawable drawable = new BitmapDrawable(null, bitmap);
+                    img_user_head.setImageDrawable(drawable);
+                }
+                else {
+                    Toast.makeText(UserInfoActivity.this, "头像下载失败!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onProgress(Integer value, long newworkSpeed) {
+            }
+
+        });
+//        return saveFile;
+    }
+    //获取本地图片,这里使用裁剪过后的图片
+    private Bitmap getDiskBitmap(String pathString)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            File file = new File(pathString);
+            if(file.exists())
+            {
+                bitmap = BitmapFactory.decodeFile(pathString);
+            }
+        } catch (Exception e)
+        {
+            Toast.makeText(this, "图片不存在!", Toast.LENGTH_SHORT).show();
+        }
+        return bitmap;
+    }
     //弹出选择头像框,有相册,拍照
     private void showPopuWindow() {
         //自定义布局
@@ -177,7 +233,8 @@ public class UserInfoActivity extends AppCompatActivity {
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 // 判断存储卡是否可以用，可用进行存储
                 if (hasSdcard()) {
-                    tempFile = new File(Environment.getExternalStorageDirectory() + "/" +
+//                    tempFile=createFile();
+                    tempFile = new File(Environment.getExternalStorageDirectory() + "/exiu" +
                             PHOTO_FILE_NAME);
                     // 从文件中创建uri
                     Uri uri = Uri.fromFile(tempFile);
@@ -211,10 +268,16 @@ public class UserInfoActivity extends AppCompatActivity {
             // 取得SDCard图片路径做显示
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(null, photo);
+            final File f = saveBitmap(photo);
             img_user_head.setImageDrawable(drawable);
-//            BmobFile bmobFile=new BmobFile(tempFile);
-//            Toast.makeText(this, "tupian---"+tempFile.getPath()+tempFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-//            upLoad(bmobFile);
+            Handler mHandler = new Handler();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    upLoadSave(f);
+                }
+            });
+
         }
     }
 
@@ -269,7 +332,8 @@ public class UserInfoActivity extends AppCompatActivity {
         } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
             // 从相机返回的数据
             if (hasSdcard()) {
-                tempFile = new File(Environment.getExternalStorageDirectory() + "/" +
+//                tempFile=createFile();
+                tempFile = new File(Environment.getExternalStorageDirectory() + "/exiu" +
                         PHOTO_FILE_NAME);
                 crop(Uri.fromFile(tempFile));//如果裁剪了,则跳转到CUT_PHOTO处理
             } else {
@@ -283,9 +347,46 @@ public class UserInfoActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-        /**
-         * 自定义图片名，获取照片的file
-         */
+
+    /**
+     * Create by 山花烂漫
+     * on 2017/4/22
+     * 保存裁剪后的图片
+     **/
+    public File saveBitmap(Bitmap bm) {
+        //创建目录
+        File sd = Environment.getExternalStorageDirectory();
+        String path = sd.getPath() + "/exiu";
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdir();
+        //创建文件
+        String FILENAME = "img_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";//确定文件名
+        File f = new File(path, FILENAME);
+        try {
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "图片创建失败!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        //写入到sdcard
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    /**
+     * 自定义图片名，获取照片的file
+     */
   /*  private File createImgFile() {
         //创建文件
         String fileName = "img_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";//确定文件名
@@ -307,7 +408,24 @@ public class UserInfoActivity extends AppCompatActivity {
         //获取文件路径
         return tempFile;
     }*/
-
+    private File createFile(){
+        File sd = Environment.getExternalStorageDirectory();
+        String path = sd.getPath() + "/exiu";
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdir();
+        //创建文件
+        String FILENAME = "img_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";//确定文件名
+        File f = new File(path, FILENAME);
+        try {
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "图片创建失败!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return file;
+    }
     private String uriToPath(Uri uri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor actualimagecursor = this.managedQuery(uri, proj, null, null, null);
@@ -318,16 +436,27 @@ public class UserInfoActivity extends AppCompatActivity {
         return img_path;
     }
 
-    private void upLoad(BmobFile bmobFile) {
+    private void upLoadSave(File file) {
+        final BmobFile bmobFile = new BmobFile(file);
         bmobFile.upload(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
                 if (null == e) {
-                    Toast.makeText(UserInfoActivity.this, "上传成功!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserInfoActivity.this, "上传成功!" , Toast.LENGTH_SHORT).show();
+                    user.setHead(bmobFile);
+                    user.update(new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (null == e) {
+                                Toast.makeText(UserInfoActivity.this, "头像更新成功!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(UserInfoActivity.this, "上传失败头像!" + e.getErrorCode() + " : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 }

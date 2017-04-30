@@ -4,6 +4,7 @@
              android:layout_height="match_parent"
              android:background="@color/light_gray2"
     >
+
     <RelativeLayout
         android:id="@+id/group_user_info"
         android:layout_width="match_parent"
@@ -43,6 +44,7 @@
                 android:layout_marginRight="40dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/test_hd"
+                android:visibility="gone"
                 android:cropToPadding="false"/>
 
             <Button
@@ -56,40 +58,171 @@
                 />
         </RelativeLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:id="@+id/lineView"
-    android:layout_below="@id/item_user_info"
-    android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/lineView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_user_info"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/lineView_published"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <ListView
-        android:id="@+id/listview_myinfo"
-        android:layout_below="@id/item_user_info"
-        android:layout_width="match_parent"
-        android:divider="@color/blank"
-        android:dividerHeight="@dimen/text_margin"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
-        />
+            <ImageView
+                android:id="@+id/img_myinfo_item_icon1"
+                android:layout_width="@dimen/img_listitem_icon_width"
+                android:layout_height="@dimen/img_listitem_icon_height"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:src="@drawable/cry"
+                />
 
+                <TextView
+                    android:id="@+id/tv_myinfo_item_content1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="我发布过的"
+                    />
 
-</LinearLayout>
+                <ImageView
+                android:id="@+id/btn_myinfo_item_icon_go1"
+                android:layout_width="@dimen/img_listitem_icon_width"
+                android:layout_height="@dimen/img_listitem_icon_height"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/margin_right"
+                android:src="@drawable/go"
+                />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lineView_jianyi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_myinfo_item_icon2"
+                    android:layout_width="@dimen/img_listitem_icon_width"
+                    android:layout_height="@dimen/img_listitem_icon_height"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_left"
+                    android:src="@drawable/cry"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_myinfo_item_content2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="建议与反馈"
+                    />
+
+                <ImageView
+                    android:id="@+id/btn_myinfo_item_icon_go2"
+                    android:layout_width="@dimen/img_listitem_icon_width"
+                    android:layout_height="@dimen/img_listitem_icon_height"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/margin_right"
+                    android:src="@drawable/go"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lineView_set"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_myinfo_item_icon3"
+                    android:layout_width="@dimen/img_listitem_icon_width"
+                    android:layout_height="@dimen/img_listitem_icon_height"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_left"
+                    android:src="@drawable/cry"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_myinfo_item_content3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="设置"
+                    />
+
+                <ImageView
+                    android:id="@+id/btn_myinfo_item_icon_go3"
+                    android:layout_width="@dimen/img_listitem_icon_width"
+                    android:layout_height="@dimen/img_listitem_icon_height"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/margin_right"
+                    android:src="@drawable/go"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lineView_becomeexiu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_myinfo_item_icon4"
+                    android:layout_width="@dimen/img_listitem_icon_width"
+                    android:layout_height="@dimen/img_listitem_icon_height"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_left"
+                    android:src="@drawable/cry"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_myinfo_item_content4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="成为维修人员"
+                    />
+
+                <ImageView
+                    android:id="@+id/btn_myinfo_item_icon_go4"
+                    android:layout_width="@dimen/img_listitem_icon_width"
+                    android:layout_height="@dimen/img_listitem_icon_height"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/margin_right"
+                    android:src="@drawable/go"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
         <Button
-        android:id="@+id/btn_user_quitLogin"
-        android:layout_below="@id/lineView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/exit"
-        android:gravity="center"
-        android:textSize="@dimen/text_bigsize"
-        android:background="@color/colorAccent"
-        android:textStyle="bold"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        />
+            android:id="@+id/btn_user_quitLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lineView"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:text="@string/exit"
+            android:textSize="@dimen/text_bigsize"
+            android:textStyle="bold"
+            />
     </RelativeLayout>
 
 </FrameLayout>

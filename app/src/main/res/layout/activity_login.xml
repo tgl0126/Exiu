@@ -17,6 +17,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/img_login_dsc"
         android:src="@drawable/login_show1"
+        android:visibility="gone"
         />
 
     <TextView

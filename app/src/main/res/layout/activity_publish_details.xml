@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_publish_details"
     android:layout_width="match_parent"
@@ -43,7 +44,6 @@
         <!--android:background="@drawable/headimage_shape"-->
         <!--头像-->
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_user_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -76,16 +76,27 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:minLines="1"
+            android:background="@drawable/textview_shape"
+            android:text="@string/publish_title"
+            android:id="@+id/tv_title"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_marginTop="15dp"
             android:minLines="5"
             android:background="@drawable/textview_shape"
             android:text="asegasgeaseffsdfa e"
-            />
+            android:id="@+id/tv_content"/>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -114,13 +125,15 @@
     </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_select"
-                android:text="我来维修"
-                />
+                android:text="电话联系"
+                android:id="@+id/btn_calltel"/>
 
         </LinearLayout>
 </LinearLayout>

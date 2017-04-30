@@ -116,11 +116,14 @@ public class PublishFragment extends Fragment {
                             publish.setSoluting(false);//获取是否正在被处理
                             publish.setProblemType(str_problem);//获取问题类型
                             publish.setUserBean(user);//表示是该用户发布的信息
+//                            publish.setCreateTime(new Date());//设置创建的时间,有利于统计发布了多久了
                             publish.save(new SaveListener<String>() {
                                 @Override
                                 public void done(String s, BmobException e) {
                                     if (e == null) {
                                         Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_SHORT).show();
+                                        et_title.setText("");
+                                        et_content.setText("");
                                     } else {
                                         Toast.makeText(getActivity(), "发布失败" + e.getErrorCode() + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
@@ -170,7 +173,7 @@ public class PublishFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                str_problem="未选择,未选择";
             }
         });
 

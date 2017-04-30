@@ -4,6 +4,7 @@
           package="com.tgl.exiu">
 
     <!-- 允许联网 -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 获取网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -17,6 +18,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 照相机权限 -->
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 拨打电话权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <!-- android:theme="@android:style/Theme.NoTitleBar" -->
     <application
@@ -25,7 +28,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -39,6 +44,16 @@
         <activity android:name=".UserInfoActivity">
         </activity>
         <activity android:name=".PublishDetailsActivity">
+        </activity>
+        <activity android:name=".BecomeExiuActivity">
+        </activity>
+        <activity android:name=".SetActivity">
+        </activity>
+        <activity android:name=".How2UseActivity">
+        </activity>
+        <activity android:name=".Set_banben_Activity">
+        </activity>
+        <activity android:name=".JYYFKActivity">
         </activity>
     </application>
 

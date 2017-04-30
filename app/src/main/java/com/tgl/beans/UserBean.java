@@ -18,7 +18,6 @@ public class UserBean extends BmobUser {
     private boolean IsExiuStaff;//是否为维修人员
     private int Stars;//维修人员用户星级
     private String PersonalSign;
-
     public String getPersonalSign() {
         return PersonalSign;
     }

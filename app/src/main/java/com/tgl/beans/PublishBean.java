@@ -17,6 +17,15 @@ public class PublishBean extends BmobObject{
     private boolean IsSoluting;//是否正在修
     private boolean IsSoluted;//是否已修
     private UserBean userBean;//一对多关系
+    private PublishBean publishBean;
+
+    public PublishBean getPublishBean() {
+        return publishBean;
+    }
+
+    public void setPublishBean(PublishBean publishBean) {
+        this.publishBean = publishBean;
+    }
 
     public UserBean getUserBean() {
         return userBean;
@@ -29,6 +38,10 @@ public class PublishBean extends BmobObject{
     public PublishBean() {
     }
 
+    public PublishBean(PublishBean publishBean ,UserBean userBean) {
+        this.publishBean=publishBean;
+        this.userBean = userBean;
+    }
 
     public Integer getID() {
         return ID;

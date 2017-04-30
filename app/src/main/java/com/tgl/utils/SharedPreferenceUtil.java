@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 public class SharedPreferenceUtil {
     private static String USER_INFO = "userInfo";
 
-
     // 存放字符串型的值
     public static void setUserInfo(Context context,String key, String value) {
         SharedPreferences sp = context.getSharedPreferences(USER_INFO,

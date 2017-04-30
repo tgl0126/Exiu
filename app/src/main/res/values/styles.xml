@@ -12,5 +12,24 @@
         <item name="android:windowEnterAnimation">@anim/popuwindow_in</item>
         <item name="android:windowExitAnimation">@anim/popuwindow_out</item>
     </style>
+<!--自定义标题栏返回-->
+    <style name="MyCustomTheme" parent="android:Theme">
+        <item name="android:windowTitleBackgroundStyle">@style/windowTitleBackgroundStyle</item>
+        <item name="android:windowTitleSize">50dp</item>
+    </style>
 
+    <style name="windowTitleBackgroundStyle">
+        <item name="android:background">#CCE8CF</item>
+    </style>
+
+    <style name="windowTitleStyle">
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!--无标题栏-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

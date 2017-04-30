@@ -21,15 +21,10 @@ import com.tgl.fragment.PublishFragment;
 import com.tgl.fragment.SearchFragment;
 import com.tgl.utils.SharedPreferenceUtil;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
-
-import static com.tgl.exiu.R.id.mMainFrame;
-
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     //    private BottomNavigationBar mBottomNavigationBar;
@@ -38,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private PublishFragment mPublishFragment;
     private SearchFragment mSearchFragment;
     private MyInfoFragment mMyInfoFragment;
-    private ArrayList<Fragment> fragments;
     private Fragment fragment;//定义一个Fragment，来做为转换的
     @BindView(R.id.bottom_navigation_bar)//底部导航栏
             BottomNavigationBar mBottomNavigationBar;
@@ -64,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .setBackgroundColorResource(R.color.orange)
                 .setBorderWidth(0);
         mBottomNavigationBar.setTabSelectedListener(this);
-        // mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .addItem(new BottomNavigationItem(R.drawable.home_fill, getString(R.string.item_home)).setInactiveIconResource(R.drawable.home).setActiveColorResource(R.color.colorPrimary).setInActiveColorResource(R.color.blue))
@@ -81,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        mMainFragment = mMainFragment.newInstance("1", "1");
+        mMainFragment = mMainFragment.newInstance("", "");
         transaction.add(R.id.mMainFrame, mMainFragment);//初始化页面
         transaction.commit();
         fragment = mMainFragment;
@@ -94,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction();
             if (!to.isAdded()) { // 先判断是否被add过
-                transaction.hide(fragment).add(mMainFrame, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                transaction.hide(fragment).add(R.id.mMainFrame, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
             } else {
                 transaction.hide(fragment).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
